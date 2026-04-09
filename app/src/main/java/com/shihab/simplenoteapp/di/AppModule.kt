@@ -8,6 +8,7 @@ import com.shihab.simplenoteapp.data.repository.NoteRepository
 import com.shihab.simplenoteapp.data.repository.NoteRepositoryImplement
 import com.shihab.simplenoteapp.domain.usecase.AddNoteUseCase
 import com.shihab.simplenoteapp.domain.usecase.DeleteNoteUseCase
+import com.shihab.simplenoteapp.domain.usecase.GetNoteUseCase
 import com.shihab.simplenoteapp.domain.usecase.GetNotesUseCase
 import dagger.Module
 import dagger.Provides
@@ -48,4 +49,7 @@ object AppModule {
 
     @Provides
     fun provideDeleteNoteUseCase(repo: NoteRepository) = DeleteNoteUseCase(repo)
+
+    @Provides
+    fun provideGetNoteUseCase(repo: NoteRepository) = GetNoteUseCase(repo)
 }
