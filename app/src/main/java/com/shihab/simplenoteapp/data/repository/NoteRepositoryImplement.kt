@@ -7,7 +7,8 @@ import com.shihab.simplenoteapp.domain.model.Note
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class NoteRepositoryImplement (
+
+class NoteRepositoryImplement(
     private val dao: NoteDao
 ) : NoteRepository {
 
@@ -24,9 +25,4 @@ class NoteRepositoryImplement (
     override suspend fun deleteNote(note: Note) {
         dao.deleteNote(note.toNoteEntity())
     }
-
-    override suspend fun getNoteById(id: Int): Note? {
-        TODO("Not yet implemented")
-    }
-
 }
