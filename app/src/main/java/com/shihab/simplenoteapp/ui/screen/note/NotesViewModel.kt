@@ -3,6 +3,8 @@ package com.shihab.simplenoteapp.ui.screen.note
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shihab.simplenoteapp.domain.model.Note
+import com.shihab.simplenoteapp.domain.usecase.AddNoteUseCase
+import com.shihab.simplenoteapp.domain.usecase.DeleteNoteUseCase
 import com.shihab.simplenoteapp.domain.usecase.GetNotesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotes: GetNotesUseCase,
+    private val deleteNote: DeleteNoteUseCase,
+    private val addNote: AddNoteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NotesUiState())
@@ -49,11 +53,18 @@ class NotesViewModel @Inject constructor(
         when (event) {
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
+                    deleteNote(event.note)
                     recentlyDeletedNote = event.note
                 }
             }
 
             is NotesEvent.UndoDelete -> {
+                viewModelScope.launch {
+                    recentlyDeletedNote?.let { note ->
+                        addNote(note)
+                    }
+                    recentlyDeletedNote = null
+                }
             }
         }
     }
